@@ -1,0 +1,14 @@
+2026-01-15 16:08:05 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 7001 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 7001 or configure this application to listen on another port.
+
