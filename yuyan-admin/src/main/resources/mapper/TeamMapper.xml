@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.yuyan.mapper.TeamMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="TeamResultMap" type="cn.com.yuyan.entity.Team">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="region" column="region"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <!-- 查询所有团队 -->
+    <select id="findAll" resultMap="TeamResultMap">
+        SELECT * FROM team ORDER BY id
+    </select>
+
+    <!-- 根据关键词模糊查询 -->
+    <select id="findByKeyword" parameterType="string" resultMap="TeamResultMap">
+        SELECT * FROM team WHERE name LIKE CONCAT('%', #{keyword}, '%') ORDER BY id
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="findById" parameterType="long" resultMap="TeamResultMap">
+        SELECT * FROM team WHERE id = #{id}
+    </select>
+
+    <!-- 插入团队 -->
+    <insert id="insert" parameterType="cn.com.yuyan.entity.Team" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO team(name, region, description) 
+        VALUES(#{name}, #{region}, #{description})
+    </insert>
+
+    <!-- 更新团队 -->
+    <update id="update" parameterType="cn.com.yuyan.entity.Team">
+        UPDATE team 
+        SET name = #{name}, region = #{region}, description = #{description}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除团队 -->
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM team WHERE id = #{id}
+    </delete>
+
+    <!-- 检查表是否存在 -->
+    <select id="tableExists" resultType="int">
+        SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = UPPER('team')
+    </select>
+
+    <!-- 创建team表 -->
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS team (
+            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            region VARCHAR(100),
+            description TEXT DEFAULT NULL
+        )
+    </update>
+</mapper>

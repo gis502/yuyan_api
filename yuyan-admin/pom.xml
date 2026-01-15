@@ -15,6 +15,7 @@
         <mybatis.spring.version>3.0.5</mybatis.spring.version>
         <druid.version>1.2.27</druid.version>
         <lombok.version>1.18.42</lombok.version>
+        <sa-token.version>1.44.0</sa-token.version>
     </properties>
 
     <parent>
@@ -75,6 +76,13 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Sa-Token 权限认证 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+            <version>${sa-token.version}</version>
         </dependency>
     </dependencies>
 

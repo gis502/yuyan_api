@@ -48,7 +48,7 @@ spring:
 # MyBatis 配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.basic.template.entity
+  type-aliases-package: cn.com.yuyan.entity
   configuration:
     map-underscore-to-camel-case: true
 
@@ -56,8 +56,8 @@ mybatis:
 logging:
   config: classpath:logback-spring.xml  # 启用自定义Logback配置
   level:
-    root: info
-    # 可以添加H2和Druid的SQL日志
-    com.yourpackage.mapper: debug  # 替换为你的Mapper包路径
-    org.h2: warn
-    com.alibaba.druid: warn
+    root: error
+    cn.com.yuyan.mapper: error       # 你的Mapper接口所在包
+    org.apache.ibatis: error         # MyBatis核心包
+    com.alibaba.druid: error         # Druid连接池
+    org.h2: error                    # H2数据库驱动
