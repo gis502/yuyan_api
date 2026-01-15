@@ -1,0 +1,63 @@
+# 端口
+server:
+  port: 3000
+
+spring:
+  datasource:
+    # H2持久化配置
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/yuyan;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+    username: yuyan
+    password: 'yuyan@admin@123'
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # Druid特定配置
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1  # H2的简单验证查询
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin
+
+      # H2驱动类名
+      driver-class-name: org.h2.Driver
+
+  # H2控制台配置（开发环境使用）
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false  # 生产环境应为false
+
+# MyBatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.basic.template.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 日志精细化配置核心
+logging:
+  config: classpath:logback-spring.xml  # 启用自定义Logback配置
+  level:
+    root: info
+    # 可以添加H2和Druid的SQL日志
+    com.yourpackage.mapper: debug  # 替换为你的Mapper包路径
+    org.h2: warn
+    com.alibaba.druid: warn

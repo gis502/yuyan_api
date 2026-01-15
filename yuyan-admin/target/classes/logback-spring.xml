@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 基础参数定义 -->
+    <property name="LOG_PATH" value="./log"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"/>
+
+    <!-- 控制台Appender：仅输出非INFO级别（WARN/ERROR/DEBUG） -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 过滤规则：排除INFO级别，只输出其他级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>DENY</onMatch>  <!-- 匹配INFO则拒绝输出 -->
+            <onMismatch>ACCEPT</onMismatch> <!-- 非INFO则允许输出 -->
+        </filter>
+    </appender>
+
+    <!-- INFO级别文件Appender：仅输出INFO，按天滚动 -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件路径 -->
+        <file>${LOG_PATH}/info/info.log</file>
+        <!-- 滚动策略：按日期切割，保留7天 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/info/info-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 过滤规则：仅接受INFO级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>  <!-- 匹配INFO则允许输出 -->
+            <onMismatch>DENY</onMismatch> <!-- 非INFO则拒绝 -->
+        </filter>
+    </appender>
+
+    <!-- 非INFO级别文件Appender（WARN/ERROR等）：单独输出到error目录 -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/error/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/error/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 过滤规则：仅接受WARN/ERROR级别（可根据需求调整） -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>  <!-- 输出>=WARN的级别（WARN/ERROR） -->
+        </filter>
+    </appender>
+
+    <!-- 根日志配置：关联所有Appender -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>    <!-- 控制台：非INFO -->
+        <appender-ref ref="INFO_FILE"/>  <!-- 文件：仅INFO -->
+        <appender-ref ref="ERROR_FILE"/> <!-- 文件：非INFO（WARN/ERROR） -->
+    </root>
+</configuration>
