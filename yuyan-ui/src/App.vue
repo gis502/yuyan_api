@@ -16,7 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
           class="mb-4"
         >
           <el-menu-item index="/">首页</el-menu-item>
-          <el-menu-item index="/teams">团队管理</el-menu-item>
+          <el-menu-item index="/teams">队伍管理</el-menu-item>
         </el-menu>
         <RouterView />
       </el-main>

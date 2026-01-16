@@ -1,8 +1,8 @@
 <template>
   <div class="team-management">
-    <el-page-header title="返回" @back="$router.back()">
+    <el-page-header style="margin: 20px 0" title="返回" @back="$router.back()">
       <template #content>
-        <span class="page-title">团队管理</span>
+        <span class="page-title">队伍管理</span>
       </template>
     </el-page-header>
 
@@ -11,7 +11,7 @@
         <el-col :span="12">
           <el-input
             v-model="searchKeyword"
-            placeholder="请输入团队名称或地区进行搜索"
+            placeholder="请输入队伍名称或地区进行搜索"
             clearable
             @keyup.enter="handleSearch"
           >
@@ -33,7 +33,7 @@
           </el-button>
           <el-button type="primary" @click="showAddDialog">
             <el-icon><Plus /></el-icon>
-            新增团队
+            新增队伍
           </el-button>
         </el-col>
       </el-row>
@@ -49,7 +49,7 @@
       >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="name" label="团队名称" width="200" />
+        <el-table-column prop="name" label="队伍名称" width="200" />
         <el-table-column prop="region" label="地区" width="120" />
         <el-table-column prop="description" label="描述" show-overflow-tooltip />
         <el-table-column label="操作" width="200" fixed="right">
@@ -72,7 +72,7 @@
       </div>
     </el-card>
 
-    <!-- 新增/编辑团队对话框 -->
+    <!-- 新增/编辑队伍对话框 -->
     <el-dialog
       v-model="dialogVisible"
       :title="dialogTitle"
@@ -85,10 +85,10 @@
         ref="teamFormRef"
         label-width="80px"
       >
-        <el-form-item label="团队名称" prop="name">
+        <el-form-item label="队伍名称" prop="name">
           <el-input
             v-model="teamForm.name"
-            placeholder="请输入团队名称"
+            placeholder="请输入队伍名称"
           />
         </el-form-item>
         <el-form-item label="地区" prop="region">
@@ -101,7 +101,7 @@
           <el-input
             v-model="teamForm.description"
             type="textarea"
-            placeholder="请输入团队描述"
+            placeholder="请输入队伍描述"
             :rows="3"
           />
         </el-form-item>
@@ -158,7 +158,7 @@ const teamFormRef = ref();
 // 表单验证规则
 const formRules = {
   name: [
-    { required: true, message: '请输入团队名称', trigger: 'blur' },
+    { required: true, message: '请输入队伍名称', trigger: 'blur' },
     { min: 2, max: 100, message: '长度在2到100个字符', trigger: 'blur' }
   ],
   region: [
@@ -167,7 +167,7 @@ const formRules = {
   ]
 };
 
-// 获取团队列表
+// 获取队伍列表
 const fetchTeams = async () => {
   loading.value = true;
   try {
@@ -175,14 +175,14 @@ const fetchTeams = async () => {
     teams.value = response.data;
     total.value = response.data.length; // 简单处理总数
   } catch (error) {
-    console.error('获取团队列表失败:', error);
-    ElMessage.error('获取团队列表失败');
+    console.error('获取队伍列表失败:', error);
+    ElMessage.error('获取队伍列表失败');
   } finally {
     loading.value = false;
   }
 };
 
-// 搜索团队
+// 搜索队伍
 const handleSearch = async () => {
   if (!searchKeyword.value.trim()) {
     fetchTeams();
@@ -195,8 +195,8 @@ const handleSearch = async () => {
     teams.value = response.data;
     total.value = response.data.length;
   } catch (error) {
-    console.error('搜索团队失败:', error);
-    ElMessage.error('搜索团队失败');
+    console.error('搜索队伍失败:', error);
+    ElMessage.error('搜索队伍失败');
   } finally {
     loading.value = false;
   }
@@ -205,7 +205,7 @@ const handleSearch = async () => {
 // 显示新增对话框
 const showAddDialog = () => {
   resetForm();
-  dialogTitle.value = '新增团队';
+  dialogTitle.value = '新增队伍';
   isEdit.value = false;
   dialogVisible.value = true;
 };
@@ -213,7 +213,7 @@ const showAddDialog = () => {
 // 显示编辑对话框
 const showEditDialog = (row) => {
   Object.assign(teamForm, row);
-  dialogTitle.value = '编辑团队';
+  dialogTitle.value = '编辑队伍';
   isEdit.value = true;
   dialogVisible.value = true;
 };
@@ -227,10 +227,10 @@ const handleSubmitForm = async () => {
     
     let response;
     if (isEdit.value) {
-      // 更新团队
+      // 更新队伍
       response = await updateTeam(teamForm);
     } else {
-      // 添加团队
+      // 添加队伍
       response = await addTeam(teamForm);
     }
     
@@ -242,16 +242,16 @@ const handleSubmitForm = async () => {
       ElMessage.error(isEdit.value ? '更新失败' : '添加失败');
     }
   } catch (error) {
-    console.error(isEdit.value ? '更新团队失败:' : '添加团队失败:', error);
+    console.error(isEdit.value ? '更新队伍失败:' : '添加队伍失败:', error);
     ElMessage.error(isEdit.value ? '更新失败' : '添加失败');
   }
 };
 
-// 删除团队
+// 删除队伍
 const handleDelete = async (id) => {
   try {
     await ElMessageBox.confirm(
-      '此操作将永久删除该团队, 是否继续?',
+      '此操作将永久删除该队伍, 是否继续?',
       '警告',
       {
         confirmButtonText: '确定',
@@ -269,7 +269,7 @@ const handleDelete = async (id) => {
     }
   } catch (error) {
     if (error !== 'cancel') {
-      console.error('删除团队失败:', error);
+      console.error('删除队伍失败:', error);
       ElMessage.error('删除失败');
     }
   }
@@ -284,7 +284,7 @@ const handleBatchDelete = async () => {
 
   try {
     await ElMessageBox.confirm(
-      `此操作将永久删除 ${multipleSelection.value.length} 个团队, 是否继续?`,
+      `此操作将永久删除 ${multipleSelection.value.length} 个队伍, 是否继续?`,
       '警告',
       {
         confirmButtonText: '确定',
@@ -303,12 +303,12 @@ const handleBatchDelete = async () => {
           successCount++;
         }
       } catch (error) {
-        console.error(`删除团队ID ${id} 失败:`, error);
+        console.error(`删除队伍ID ${id} 失败:`, error);
       }
     }
     
     if (successCount > 0) {
-      ElMessage.success(`成功删除 ${successCount} 个团队`);
+      ElMessage.success(`成功删除 ${successCount} 个队伍`);
       fetchTeams(); // 刷新列表
     } else {
       ElMessage.error('删除失败');

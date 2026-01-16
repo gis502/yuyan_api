@@ -293,7 +293,6 @@ int main() {
 
     printf("访问地址：\n");
     printColor(11, "  前端服务: http://localhost:7000\n");
-    printColor(11, "  后端服务: http://localhost:7001\n");
     printColor(11, "  管理界面: http://localhost:7002\n\n");
 
     printColor(8, "注意：服务已最小化到后台运行\n");
