@@ -52,7 +52,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         List<Team> allTeams = new ArrayList<>();
         
         // 北京
-        allTeams.add(createTeam("北京飞马航遥科技有限公司", "北京"));
+        allTeams.add(createTeam("北京飞马航遥科技有限公司", "北京", "北京飞马航遥科技有限公司成立于2017年5月23日，法定代表人为张世杰，总部位于北京市海淀区建枫路（南延）6号院，注册资本1000万元人民币，系深圳飞马机器人股份有限公司全资子公司。公司主要从事技术开发、测绘服务、智能无人飞行器制造及数据处理业务，下设3家分支机构，2024年员工27人，税务信用等级连续四年获评A级。"));
         allTeams.add(createTeam("北京神州数码有限公司", "北京"));
         allTeams.add(createTeam("北京未来智能科技有限公司", "北京"));
         allTeams.add(createTeam("北京中科浩电科技有限公司", "北京"));
@@ -351,6 +351,14 @@ public class DatabaseInitializer implements CommandLineRunner {
         team.setName(name);
         team.setRegion(region);
         team.setDescription(null);  // 默认为null
+        return team;
+    }
+
+    private Team createTeam(String name, String region, String description) {
+        Team team = new Team();
+        team.setName(name);
+        team.setRegion(region);
+        team.setDescription(description);
         return team;
     }
 }

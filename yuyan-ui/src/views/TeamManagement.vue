@@ -59,17 +59,6 @@
           </template>
         </el-table-column>
       </el-table>
-      
-      <div class="pagination-container">
-        <el-pagination
-          v-if="total > 0"
-          layout="prev, pager, next"
-          :total="total"
-          :current-page="currentPage"
-          :page-size="pageSize"
-          @current-change="handlePageChange"
-        />
-      </div>
     </el-card>
 
     <!-- 新增/编辑队伍对话框 -->
@@ -340,12 +329,6 @@ const resetForm = () => {
   teamForm.name = '';
   teamForm.region = '';
   teamForm.description = '';
-};
-
-// 分页处理
-const handlePageChange = (page) => {
-  currentPage.value = page;
-  // 这里可以添加分页逻辑，当前简化处理
 };
 
 // 组件挂载时获取数据

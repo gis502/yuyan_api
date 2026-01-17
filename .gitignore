@@ -2,3 +2,5 @@
 /.idea/
 /log/
 /yuyan-admin/target/
+/yuyan-result/data/
+/yuyan-result/log/
